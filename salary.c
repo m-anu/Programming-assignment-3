@@ -1,35 +1,50 @@
 #include <stdio.h>
 
-// Function to calculate salary after deducting taxes
-double calculateSalary(double hourly_rate, double hours_worked) {
-    const double tax_rate = 0.15; // Assume a 15% tax rate
-    double salary = hours_worked * hourly_rate;
-    double taxes = salary * tax_rate;
-    return salary - taxes;
-}
+#define MAX_EMPLOYEES 100
+
+struct Employee {
+    int employeeID;
+    char name[50];
+    float hourlyRate;
+    float hoursWorked;
+    float salary; // Calculated salary
+};
 
 int main() {
-    int employee_id;
-    char employee_name[100];
-    double hourly_rate, hours_worked;
+    struct Employee employees[MAX_EMPLOYEES];
+    int numEmployees;
+
+    // Input number of employees
+    printf("Enter number of employees: ");
+    scanf("%d", &numEmployees);
 
     // Input employee details
-    printf("Enter employee ID: ");
-    scanf("%d", &employee_id);
-    printf("Enter employee name: ");
-    scanf("%s", employee_name);
-    printf("Enter hourly rate: ");
-    scanf("%lf", &hourly_rate);
-    printf("Enter hours worked: ");
-    scanf("%lf", &hours_worked);
+    for (int i = 0; i < numEmployees; i++) {
+        printf("Enter details for Employee %d:\n", i+1);
+        printf("Employee ID: ");
+        scanf("%d", &employees[i].employeeID);
+        printf("Name: ");
+        scanf("%s", employees[i].name); // Assuming there are no spaces in name input
+        printf("Hourly Rate: ");
+        scanf("%f", &employees[i].hourlyRate);
+        printf("Hours Worked: ");
+        scanf("%f", &employees[i].hoursWorked);
 
-    // Calculate salary
-    double salary = calculateSalary(hourly_rate, hours_worked);
+        // Calculate salary (with an example)
+        float grossPay = employees[i].hourlyRate * employees[i].hoursWorked;
+        float taxes = grossPay * 0.1; // Example tax rate, adjust as needed
+        employees[i].salary = grossPay - taxes;
+    }
 
-    // Display employee details
-    printf("\nEmployee ID: %d\n", employee_id);
-    printf("Employee Name: %s\n", employee_name);
-    printf("Calculated Salary: $%.2lf\n", salary);
+    // Display employee details with calculated salary
+    printf("\nEmployee Details with Calculated Salary:\n");
+    for (int i = 0; i < numEmployees; i++) {
+        printf("Employee ID: %d\n", employees[i].employeeID);
+        printf("Name: %s\n", employees[i].name);
+        printf("Hourly Rate: %.2f\n", employees[i].hourlyRate);
+        printf("Hours Worked: %.2f\n", employees[i].hoursWorked);
+        printf("Salary: %.2f\n\n", employees[i].salary);
+    }
 
     return 0;
 }
